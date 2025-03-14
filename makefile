@@ -18,7 +18,7 @@ reinstall:
 	@rm -rf node_modules
 	pnpm install
 
-run: stop
+run:
 	vite . --port $(PORT)
 
 stop:

@@ -20,6 +20,7 @@
 		"@dnd-kit/core": "^6.3.1",
 		"@eslint/js": "^9.22.0",
 		"@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+		"@tailwindcss/vite": "^4.0.14",
 		"@tanstack/react-query": "5.67.3",
 		"@tanstack/react-query-devtools": "^5.62.9",
 		"@testing-library/jest-dom": "^6.6.3",

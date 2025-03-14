@@ -1,15 +1,17 @@
 import fs from "node:fs";
 import { resolve } from "node:path";
 import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { codeInspectorPlugin } from "code-inspector-plugin";
+import postcssPresetEnv from "postcss-preset-env";
+import tailwindcssNesting from "tailwindcss/nesting";
 import { defineConfig } from "vite";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 
 const version = require("./package.json").version;
 // 支持构建命令传入构建版本
 const versionName = process.env.VERSION_NAME || version;
-// https://vite.dev/config/
 export default defineConfig(({ mode = "development" }) => {
 	const isProduction = mode === "production";
 
@@ -17,6 +19,7 @@ export default defineConfig(({ mode = "development" }) => {
 	return {
 		plugins: [
 			react(),
+			tailwindcss(),
 			createSvgIconsPlugin({
 				iconDirs: [resolve(process.cwd(), "src/assets/icon")],
 				symbolId: "icon-[dir]-[name]",
@@ -70,6 +73,14 @@ export default defineConfig(({ mode = "development" }) => {
 			modules: {
 				// kebab-case(foo.module.scss) -> camelCase(foo.jsx)
 				localsConvention: "camelCase",
+			},
+			postcss: {
+				plugins: [
+					tailwindcssNesting,
+					postcssPresetEnv({
+						features: { "nesting-rules": false },
+					}),
+				],
 			},
 		},
 		resolve: {
