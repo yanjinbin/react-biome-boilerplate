@@ -42,6 +42,22 @@ export default defineConfig(({ mode = "development" }) => {
 				bundler: "vite",
 			}),
 		],
+		css: {
+			devSourcemap: true,
+			modules: {
+				// kebab-case(foo.module.scss) -> camelCase(foo.jsx)
+				localsConvention: "camelCase",
+			},
+			postcss: {
+				plugins: [
+					tailwindcssNesting,
+					postcssPresetEnv({
+						features: { "nesting-rules": false },
+					}),
+				],
+			},
+		},
+
 		envDir: "env",
 		server: {
 			openUrl: "google chrome canary", // 显式指定浏览器
@@ -68,21 +84,6 @@ export default defineConfig(({ mode = "development" }) => {
 			drop: isProduction ? ["console", "debugger"] : [],
 		},
 
-		css: {
-			devSourcemap: true,
-			modules: {
-				// kebab-case(foo.module.scss) -> camelCase(foo.jsx)
-				localsConvention: "camelCase",
-			},
-			postcss: {
-				plugins: [
-					tailwindcssNesting,
-					postcssPresetEnv({
-						features: { "nesting-rules": false },
-					}),
-				],
-			},
-		},
 		resolve: {
 			alias: {
 				"@": resolve(__dirname, "./src"),
