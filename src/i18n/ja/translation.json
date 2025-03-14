@@ -1,0 +1,9 @@
+{
+	"add": "に追加",
+	"changeLanguage": "言語を切り替える",
+	"dashboard": "フロントページ",
+	"delete": "消去",
+	"search": "クエリ",
+	"update": "更新する",
+	"welcome": "国際化react"
+}

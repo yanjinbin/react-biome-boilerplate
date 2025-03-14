@@ -1,0 +1,9 @@
+{
+	"add": "添加",
+	"changeLanguage": "切换语言",
+	"dashboard": "头版",
+	"delete": "删除",
+	"search": "查询",
+	"update": "更新",
+	"welcome": "欢迎使用react国际化"
+}

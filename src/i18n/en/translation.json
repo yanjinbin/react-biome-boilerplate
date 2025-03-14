@@ -1,0 +1,9 @@
+{
+	"add": "add",
+	"changeLanguage": "switch language",
+	"dashboard": "front page",
+	"delete": "delete",
+	"search": "search",
+	"update": "renew",
+	"welcome": "Welcome to react internationalization"
+}
