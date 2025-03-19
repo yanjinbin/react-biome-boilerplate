@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { codeInspectorPlugin } from "code-inspector-plugin";
 import postcssPresetEnv from "postcss-preset-env";
-import tailwindcssNesting from "tailwindcss/nesting";
+import pxToViewport from "postcss-px-to-viewport-8-plugin";
 import { defineConfig } from "vite";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 
@@ -14,7 +14,6 @@ const version = require("./package.json").version;
 const versionName = process.env.VERSION_NAME || version;
 export default defineConfig(({ mode = "development" }) => {
 	const isProduction = mode === "production";
-
 	console.log("部署环境=>\t", mode);
 	return {
 		plugins: [
@@ -47,29 +46,58 @@ export default defineConfig(({ mode = "development" }) => {
 			modules: {
 				// kebab-case(foo.module.scss) -> camelCase(foo.jsx)
 				localsConvention: "camelCase",
+				// localsConvention: "camelCaseOnly",
 			},
 			postcss: {
 				plugins: [
-					tailwindcssNesting,
 					postcssPresetEnv({
-						features: { "nesting-rules": false },
+						stage: 1, // 支持处于 Stage 1 及以上的特性（稳定性较高）
+						autoprefixer: { grid: true }, // 自动添加前缀，支持 grid 布局
+						features: {
+							"nesting-rules": true, // ✅ 开启嵌套规则支持
+							"custom-properties": true, // ✅ 启用 CSS 变量支持
+						},
+					}),
+					pxToViewport({
+						unitToConvert: "px", // 需要转换的单位
+						viewportWidth: 375, // 设计稿宽度（iPhone X/12/14 等常见移动端）
+						unitPrecision: 4, // 保持 4 位小数，减少 CSS 文件体积
+						propList: [
+							"width",
+							"height",
+							"margin",
+							"padding",
+							"top",
+							"left",
+							"bottom",
+							"right",
+							"font-size",
+						], // 只转换尺寸相关的属性
+						viewportUnit: "vw", // 转换为 vw 单位
+						fontViewportUnit: "vw", // 字体也转换为 vw
+						selectorBlackList: [/^ignore-/, /^no-vw-/], // 指定不转换的类名
+						minPixelValue: 2, // 小于等于 2px 则不转换
+						mediaQuery: true, // 在媒体查询中也转换
+						replace: true, // 直接替换属性值
+						exclude: [/node_modules/], // 忽略 node_modules 目录
+						landscape: true, // 横屏情况也进行转换
 					}),
 				],
 			},
 		},
 
 		envDir: "env",
+		// 开发阶段的代理服务器, 充当5173和8080服务器的媒介,避免跨域问题, 实际请求仍旧是5173,而不是8080, http 404 看看请求地址对不对
 		server: {
-			openUrl: "google chrome canary", // 显式指定浏览器
 			host: "0.0.0.0",
 			cors: true,
 			port: 5173,
 			strictPort: true,
 			open: true,
 			proxy: {
-				"^/api": {
-					target: "http://127.0.0.1:6789", // 真实接口地址, 后端给的基地址
-					changeOrigin: true, // 允许跨域
+				"/api/": {
+					target: "http://127.0.0.1:8080",
+					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api/, ""),
 				},
 			},
@@ -80,6 +108,7 @@ export default defineConfig(({ mode = "development" }) => {
 			assetsDir: `./${versionName}`, // 版本号
 			sourcemap: true,
 		},
+
 		esbuild: {
 			drop: isProduction ? ["console", "debugger"] : [],
 		},
@@ -91,6 +120,7 @@ export default defineConfig(({ mode = "development" }) => {
 			},
 			extensions: [".js", ".mjs", ".vue", ".json", ".less", ".scss", ".css"],
 		},
+
 		test: {
 			dir: "__test__", // 测试文件夹
 		},

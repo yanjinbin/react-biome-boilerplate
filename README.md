@@ -10,3 +10,7 @@ zustand is state management
 biome v1.9.4 is linter for js/ts
 
 pre-commit hook is to hook linters
+
+// zustand 用法
+// tanstack query用法
+// react route 用法

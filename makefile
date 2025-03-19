@@ -6,6 +6,8 @@ commit_hash=`git rev-parse --short HEAD`
 PORT = 5173  # 要杀死进程的端口号
 PID = $(shell lsof -t -i :$(PORT))  # 获取占用指定端口的进程ID
 
+depend-analyze:
+	depcheck
 
 biome:
 	pnpm run biome

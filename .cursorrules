@@ -1,7 +1,7 @@
 {
     "instructions": [
         "Use React 18 functional components throughout the project, utilizing Hooks for managing state and lifecycle.",
-        "Employ React Router v6 to handle navigation with route-based code splitting using React.lazy.",
+        "Employ React Router v7 to handle navigation with route-based code splitting using React.lazy.",
         "Integrate TanStack Query v5 for server-side state management and consistent data-fetching.",
         "Implement TailwindCSS for styling, ensuring responsive design from mobile to desktop.",
         "Leverage AntDesign v5 for UI components, complemented by custom UI elements from Shadcn-UI.",
