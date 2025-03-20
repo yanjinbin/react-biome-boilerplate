@@ -1,0 +1,114 @@
+.hello {
+	color: #e54686; /* 设置文本颜色 */
+	font-size: 2rem; /* 设置字体大小 */
+	font-weight: bold; /* 设置字体加粗 */
+	text-align: center; /* 设置文本居中 */
+}
+
+.main {
+	color: rebeccapurple;
+	border: 2px solid #ccc;
+	padding: 1em;
+}
+
+.special {
+	color: black;
+	font-weight: bold;
+}
+
+body {
+	color: green;
+}
+
+.my-class-1 a {
+	color: inherit;
+}
+
+.my-class-2 a {
+	color: initial;
+}
+
+.my-class-3 a {
+	color: unset;
+}
+
+blockquote {
+	background-color: orange;
+	border: 2px solid blue;
+}
+
+.fix-this {
+	all: unset;
+}
+
+h2 {
+	font-size: 2em;
+	color: #000;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.small {
+	font-size: 1em;
+}
+
+.bright {
+	color: rebeccapurple;
+}
+
+#winning {
+	background-color: red;
+	border: 1px solid black;
+}
+
+.better {
+	background-color: gray;
+	/* importnat 很重要*/
+	border: none !important;
+}
+
+/*p {*/
+/*	background-color: blue;*/
+/*	color: white;*/
+/*	padding: 5px;*/
+/*}*/
+
+@layer secondLayer, firstLayer;
+p {
+	/* 0-0-1 */
+	background-color: red;
+	color: grey !important;
+	border: 5px inset purple;
+}
+p:hover {
+	background-color: #646cff;
+}
+
+p::first-line {
+	background-color: aquamarine;
+	font-size: large;
+}
+
+p#addSpecificity {
+	/* 1-0-1 */
+	border-style: solid !important;
+}
+
+@layer firstLayer {
+	#addSpecificity {
+		/* 1-0-0 */
+		background-color: blue;
+		color: white !important;
+		border-width: 5px;
+		border-style: dashed !important;
+	}
+}
+
+@layer secondLayer {
+	p#addSpecificity {
+		/* 1-0-1 */
+		background-color: green;
+		color: orange !important;
+		border-width: 10px;
+		border-style: dotted !important;
+	}
+}
